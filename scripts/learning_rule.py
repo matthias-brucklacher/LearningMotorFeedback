@@ -11,7 +11,7 @@ class network:
         self.err = None
         self.err_list = []
         self.err_avg = None
-        self.l_rate = 1
+        self.l_rate = 0.1
 
     def infer_step(self, in_1, in_2):
         # Determine activity of the neurons
@@ -20,8 +20,8 @@ class network:
         self.err = -self.w1*in_1+ self.w2*in_2 # -np.dot(self.w1,in_1) + np.multiply(self.w2.T,in_2)
 
         # To get Keller-like responses (otherwise not necessary)
-        self.err = np.maximum(0, self.err) 
-        self.err = 1/(1 + np.exp(-self.err)) 
+        #self.err = np.maximum(0, self.err) 
+        #self.err = 1/(1 + np.exp(-self.err)) 
 
     def learn_step(self):
         # Calculate moving average of the error neuron 
@@ -33,8 +33,10 @@ class network:
 
         # Update weights
         #self.err_avg = 0.5
-        self.w1 += self.l_rate * (self.err -self.err_avg)*self.act_1 #self.l_rate * np.dot((self.err -self.err_avg),np.transpose(self.act_1))
-        self.w2 -= self.l_rate * (self.err - self.err_avg)*self.act_2 #self.l_rate * np.dot((self.err -self.err_avg),np.transpose(self.act_2))
+        # self.w1 += self.l_rate * (self.err -self.err_avg)*self.act_1 #self.l_rate * np.dot((self.err -self.err_avg),np.transpose(self.act_1))
+        # self.w2 -= self.l_rate * (self.err - self.err_avg)*self.act_2 #self.l_rate * np.dot((self.err -self.err_avg),np.transpose(self.act_2))
+        self.w1 += self.l_rate * self.err*self.act_1
+        self.w2 -= self.l_rate * self.err*self.act_2
         self.w1 = np.maximum(0,self.w1)
         self.w2 = np.maximum(0,self.w2)
 
@@ -58,8 +60,8 @@ atom_2 = [[0]]*50 + [[1]]*50
 
 bin_1 = np.array(atom_1*100)
 bin_2 = np.array(atom_2* 100)
-seq_1 = bin_1
-seq_2 = bin_1
+seq_1 = uni_1
+seq_2 = uni_1
 
 metrics = {'w1': [], 'w2': [], 'err': [], 'err_avg': []}
 
