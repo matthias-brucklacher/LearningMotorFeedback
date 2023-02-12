@@ -17,7 +17,7 @@ class network:
         # Determine activity of the neurons
         self.act_1 = in_1
         self.act_2 = in_2
-        self.err = -self.w1*in_1+ self.w2*in_2 # -np.dot(self.w1,in_1) + np.multiply(self.w2.T,in_2)
+        self.err = self.w1*in_1 - self.w2*in_2 # -np.dot(self.w1,in_1) + np.multiply(self.w2.T,in_2)
 
         # To get Keller-like responses (otherwise not necessary)
         #self.err = np.maximum(0, self.err) 
@@ -33,10 +33,8 @@ class network:
 
         # Update weights
         #self.err_avg = 0.5
-        # self.w1 += self.l_rate * (self.err -self.err_avg)*self.act_1 #self.l_rate * np.dot((self.err -self.err_avg),np.transpose(self.act_1))
-        # self.w2 -= self.l_rate * (self.err - self.err_avg)*self.act_2 #self.l_rate * np.dot((self.err -self.err_avg),np.transpose(self.act_2))
-        self.w1 += self.l_rate * self.err*self.act_1
-        self.w2 -= self.l_rate * self.err*self.act_2
+        self.w1 -= self.l_rate * (self.err -self.err_avg)*self.act_1 #self.l_rate * np.dot((self.err -self.err_avg),np.transpose(self.act_1))
+        self.w2 += self.l_rate * (self.err - self.err_avg)*self.act_2 #self.l_rate * np.dot((self.err -self.err_avg),np.transpose(self.act_2))
         self.w1 = np.maximum(0,self.w1)
         self.w2 = np.maximum(0,self.w2)
 
@@ -65,7 +63,7 @@ seq_2 = uni_1
 
 metrics = {'w1': [], 'w2': [], 'err': [], 'err_avg': []}
 
-net = network(1, 1, w1_scaling = 0.1, w2_scaling = 1)
+net = network(1, 1, w1_scaling = 0.6, w2_scaling = 0.5)
 metrics['w1'].append(net.w1)
 metrics['w2'].append(net.w2)
 
