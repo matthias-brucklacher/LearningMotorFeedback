@@ -20,8 +20,8 @@ class network:
         self.err = self.w1*in_1 - self.w2*in_2 # -np.dot(self.w1,in_1) + np.multiply(self.w2.T,in_2)
 
         # To get Keller-like responses (otherwise not necessary)
-        #self.err = np.maximum(0, self.err) 
-        #self.err = 1/(1 + np.exp(-self.err)) 
+        self.err = np.maximum(0, self.err) 
+        self.err = 1/(1 + np.exp(-self.err)) 
 
     def learn_step(self):
         # Calculate moving average of the error neuron 
@@ -39,10 +39,10 @@ class network:
         self.w2 = np.maximum(0,self.w2)
 
 np.random.seed(0)
-seq_length = 1000
+seq_length = 100000
 in_dim = 1
 uni_1 = np.random.uniform(0,1,size  = (seq_length,in_dim))
-uni_1_noisy = uni_1 + 0.*np.random.standard_normal((seq_length,in_dim))
+uni_1_noisy = uni_1 + 0.01*np.random.standard_normal((seq_length,in_dim))
 uni_1_noisy = np.clip(uni_1_noisy, a_min = 0, a_max= 1)
 
 uni_2 = np.random.uniform(0,1,size  = (seq_length, in_dim))
@@ -59,11 +59,11 @@ atom_2 = [[0]]*50 + [[1]]*50
 bin_1 = np.array(atom_1*100)
 bin_2 = np.array(atom_2* 100)
 seq_1 = uni_1
-seq_2 = uni_1
+seq_2 = uni_1_noisy
 
 metrics = {'w1': [], 'w2': [], 'err': [], 'err_avg': []}
 
-net = network(1, 1, w1_scaling = 0.6, w2_scaling = 0.5)
+net = network(1, 1, w1_scaling = 0.5, w2_scaling = 0.4)
 metrics['w1'].append(net.w1)
 metrics['w2'].append(net.w2)
 
