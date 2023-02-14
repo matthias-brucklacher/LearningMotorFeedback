@@ -55,9 +55,9 @@ if data_type == 'test':
         visual_input[i, :, y_offset:y_offset+img_tile_height, x_offset:x_offset+img_tile_width] = np.where(objects[i] != 0, objects[i], visual_input[i, :, y_offset:y_offset+img_tile_height, x_offset:x_offset+img_tile_width])
 
 # Save data
-np.save('in_data/data_visual_condition-'+data_type+'.npy', visual_input)
-np.save('in_data/data_running_ct_condition-'+data_type+'.npy', running_ct)
-np.save('in_data/data_running_nt_condition-'+data_type+'.npy', running_nt)
+np.save('../in_data/data_visual_condition-'+data_type+'.npy', visual_input)
+np.save('../in_data/data_running_ct_condition-'+data_type+'.npy', running_ct)
+np.save('../in_data/data_running_nt_condition-'+data_type+'.npy', running_nt)
 
 # Display animated movie for selected sequence
 seq_idx = 1
@@ -95,10 +95,10 @@ def update(*args):
 plt.tight_layout()
 
 ani = animation.FuncAnimation(fig, update, interval=200, repeat = False)
-f = r"C:/Users/mbruckl/OneDrive/OneDrive - UvA/Desktop/animation.mp4" 
-writervideo = animation.FFMpegWriter(fps=20) 
-ani.save(f, writer=writervideo)
-
+f = r"C:\Users\mbruckl\OneDrive - UvA\Documents\animation.mp4" 
+writervideo = animation.PillowWriter(fps=20) 
+ani.save('animation.gif', writer=writervideo)
 plt.show()
 
+#C:\Users\mbruckl\OneDrive - UvA\Documents\LearningMotorFeedback
 
