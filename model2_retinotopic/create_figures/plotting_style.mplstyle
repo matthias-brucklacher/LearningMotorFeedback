@@ -1,0 +1,12 @@
+figure.figsize : 3.2, 2.4
+xtick.labelsize : 8
+ytick.labelsize : 8
+legend.fontsize: 10
+legend.frameon: False
+axes.labelsize : 12
+savefig.dpi : 400
+savefig.format: png
+savefig.bbox : tight
+# NO spines
+axes.spines.top   : False
+axes.spines.right : False

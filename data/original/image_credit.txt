@@ -1,0 +1,19 @@
+
+Mouse sketch: https://scidraw.io/drawing/118
+grass: https://www.patternpictures.com/full-frame-green-grass-texture/
+
+Head: https://openclipart.org/detail/166375/head-profile
+Brain: https://openclipart.org/detail/313033/human-brain-sketch-line-art
+
+# For animals dataset
+Horse: https://pixabay.com/de/photos/pferd-grau-konik-weide-l%C3%A4uft-2388274/
+Rabbit: https://pixabay.com/de/photos/hase-tier-tierwelt-natur-nat%C3%BCrlich-2195251/
+Eagle: https://pixabay.com/de/photos/adler-greifvogel-raubvogel-vogel-2665802/
+Mouse: https://pixabay.com/photos/house-mouse-mouse-long-tailed-mouse-5213762/
+Cat: https://pixabay.com/de/photos/katze-kitten-sitzen-freigestellt-2669554/
+Turtle: https://pixabay.com/de/photos/schildkr%C3%B6te-freigestellt-2902623/
+dog: https://pixabay.com/de/photos/hund-l%C3%A4uft-dog-racing-hund-l%C3%A4uft-3480134/
+lion: https://pixabay.com/de/illustrations/l%C3%B6we-m%C3%A4nnlich-m%C3%A4hne-raubtier-1734800/
+Lamb: https://pixabay.com/de/photos/schaf-lamm-freigestellt-bauernhof-4862484/
+Donkey: https://pixabay.com/de/vectors/esel-tier-maultier-linie-kunst-7893479/
+Small donkey: https://pixabay.com/de/photos/esel-fohlen-grau-fahrt-equiden-2653298/
