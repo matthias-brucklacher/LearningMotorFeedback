@@ -1,8 +1,13 @@
 # LearningMotorFeedback
 
-Code for the paper "Learning to segment self-generated from externally caused optic flow through sensorimotor mismatch circuits" by Brucklacher, Pezzulo, Mannella, Galati and Pennartz (2023): https://www.biorxiv.org/content/10.1101/2023.11.15.567170v1
+A biologically plausible generative network to distinguish self- from externally generated optic flow patterns.
 
-## Dependencies
+This repository provides the code for the experiments in our paper *Learning to segment self-generated from externally caused optic flow through sensorimotor mismatch circuits* (Brucklacher*, Pezzulo, Mannella, Galati and Pennartz 2023). Please find the full paper at this link and cite when using the code:
+https://www.biorxiv.org/content/10.1101/2023.11.15.567170v1
+
+&ast; Corresponding author. Email: m.m.brucklacher@uva.nl
+
+## Installation
 - [Conda](https://www.anaconda.com/)
 - Setup the conda environment `motorpred_env` by running:
 
@@ -13,7 +18,6 @@ Code for the paper "Learning to segment self-generated from externally caused op
 - With the activated environment, manually run:
     ```bash
     pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu118
-
     ```
 
 - With the activated environment, install the local package 'mspc' to allow absolute imports of modules. To do so run the following from directory 'LearningMotorFeedback':
