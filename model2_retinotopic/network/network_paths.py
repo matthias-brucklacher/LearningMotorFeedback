@@ -9,6 +9,8 @@ network_paths = {
     'trained_animals_after_nonempty_pretraining': model_folder + 'trained_animals_after_nonempty_pretraining',
     'trained_animals': model_folder + 'trained_animals',
     'trained_animals_jointly': model_folder + 'trained_animals_jointly',
+    'trained_animals_independently_moving': model_folder + 'trained_animals_independently_moving',
     'pretrained_multimove': model_folder + 'pretrained_multimove',
+    
 }
 

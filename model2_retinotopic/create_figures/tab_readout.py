@@ -1,11 +1,11 @@
 from copy import deepcopy
-import matplotlib.pyplot as plt
 from model2_retinotopic.network.network_hierarchical import HierarchicalNetwork
 from model2_retinotopic.network.training_configurations import pretrain_fashionmnist, train_fashionmnist
 from model2_retinotopic.network.network_paths import network_paths
 from model2_retinotopic.data_handling.fashionmnist_datasets import fashionmnist_train, fashionmnist_test
 from model2_retinotopic.during_run_analysis.analysis_functions import Recording
 import numpy as np
+import pandas as pd
 from tabulate import tabulate
 import torch
 from torch.utils.data import Subset
@@ -13,7 +13,6 @@ import torch.utils.data as data
 import torch.optim as optim
 import torch.nn as nn
 from tqdm import tqdm
-
 
 @torch.no_grad()
 def prepare_data_features(model, dataset):
@@ -34,8 +33,8 @@ def prepare_data_features(model, dataset):
         'V1-DS': [],
         'Full vis.': [],
     }
+
     for batch_input, batch_labels in tqdm(data_loader):
-        
         optic_flow, movement, visual_sequence, segmentation_labels = batch_input
         optic_flow = optic_flow.to(device)
         network.reset_activity(batch_size=optic_flow.shape[0])
@@ -176,6 +175,8 @@ def tab_readout(n_runs=2):
     acc_train = Recording(*populations)
     acc_test = Recording(*populations)
 
+    acc = pd.DataFrame(columns = ['Population', 'Train acc.', 'Test acc.'])
+
     for run_it in range(n_runs):
         acc_train.add_run()
         acc_test.add_run()
@@ -198,13 +199,16 @@ def tab_readout(n_runs=2):
         test_sets_readout = prepare_data_features(net, test_set_network)
 
         # Train classifiers on representations 
-        for key in populations:
-            population_train_acc, population_test_acc = classification_accuracy(train_sets_readout[key], test_sets_readout[key])
-            acc_train.update(**{key: population_train_acc})
-            acc_test.update(**{key: population_test_acc})
-        
+        for pop_it in populations:
+            population_train_acc, population_test_acc = classification_accuracy(train_sets_readout[pop_it], test_sets_readout[pop_it])
+            acc_train.update(**{pop_it: population_train_acc})
+            acc_test.update(**{pop_it: population_test_acc})
+            acc = pd.concat([acc, pd.DataFrame({'Population': pop_it, 'Train acc.': population_train_acc.numpy(), 'Test acc.': population_test_acc.numpy()}, index = [0])], ignore_index=True)
+
     acc_train_mean_std = acc_train.compute_mean_std()
     acc_test_mean_std = acc_test.compute_mean_std()
+    # Save acc
+    acc.to_csv('results/intermediate/readout.csv', index=False)
 
     table = []
     headers = ['Area', 'Acc. train', 'Acc. test']
@@ -222,6 +226,6 @@ def tab_readout(n_runs=2):
     return table_latex, table_readable
 
 if __name__ == '__main__':
-    table_latex, table_readable = tab_readout()
+    table_latex, table_readable = tab_readout(n_runs=4)
     print(table_latex)
     print(table_readable)

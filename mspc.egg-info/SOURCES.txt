@@ -6,14 +6,9 @@ model1_global/fig3_mismatch.py
 model1_global/figs_convergence_proof.py
 model1_global/global_model.py
 model1_global/mismatch_functions.py
-model2_retinotopic/OLD_animate_segmentation.py
 model2_retinotopic/__init__.py
-model2_retinotopic/animate_segmentation.py
-model2_retinotopic/fig4_plot_learning_curves.py
-model2_retinotopic/figS1_removal.py
-model2_retinotopic/network_hierarchical.py
-model2_retinotopic/test.py
-model2_retinotopic/train_classifier.py
+model2_retinotopic/demo.py
+model2_retinotopic/helpers.py
 mspc.egg-info/PKG-INFO
 mspc.egg-info/SOURCES.txt
 mspc.egg-info/dependency_links.txt

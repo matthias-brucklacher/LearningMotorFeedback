@@ -1,0 +1,20 @@
+pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+
+conda install matplotlib
+
+conda install scikit-image
+
+conda install -c anaconda numpy
+
+conda install pandas
+
+conda install -c conda-forge tqdm
+
+conda install -c conda-forge pingouin
+
+conda install -c conda-forge opencv
+
+conda install -c conda-forge tabulate
+
+# From main folder
+pip install -e .

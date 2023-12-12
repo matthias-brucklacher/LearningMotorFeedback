@@ -49,7 +49,7 @@ def fig_learning_curves(n_runs=1):
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     plt.tight_layout()
-    plt.savefig('results/figures/fig4_learning.png', dpi=400)
+    plt.savefig('results/figures/fig5B_learning.png', dpi=400)
 
     # Print relevant values
     print(f'Non-coupled training error: {noncoupled_error[-1, 0]:.3f} +- {noncoupled_error[-1, 1]:.3f}')

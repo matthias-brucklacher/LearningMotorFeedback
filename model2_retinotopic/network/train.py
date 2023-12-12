@@ -52,7 +52,7 @@ def train(n_runs, train_dataset, n_epochs, learning_rate, test_dataset=None, tra
         else:
             run_id = run_id[:-1] + f'{run_it}'
         
-        print(f'Before training: IoU {IoU:.2f}')
+        #print(f'Before training: IoU {IoU:.2f}')
         recording.update(timestamp=0, error=0, IoU=IoU) # No error measured before training 
         if test_dataset is None:
             test_dataset = train_dataset
@@ -89,7 +89,7 @@ def training_loop(n_epochs, train_loader, test_dataset, recording, train_simulta
                 running_loss += monitoring_loss.item()
         if net.inference_mode != 'stream_1': # Stream 2 needs to be active for segmentation 
             IoU = segmentation_performance(net, test_dataset, eval_frame=eval_frame, run_id=run_id)
-            print(f'Epoch {epoch_it} IoU {IoU:.2f}')
+            #print(f'Epoch {epoch_it} IoU {IoU:.2f}')
         else:
             IoU = 0
         recording.update(error=running_loss, timestamp=epoch_it + 1, IoU=IoU)

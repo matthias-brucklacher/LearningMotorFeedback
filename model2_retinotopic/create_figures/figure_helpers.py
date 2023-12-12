@@ -83,5 +83,5 @@ def snapshot(load_path_pretrained, load_path_trained, dataset, eval_frame, show_
     cbar.set_label('Neural activity')
 
     if mode != 'joint_training':
-        plt.savefig('results/figures/fig4B.png', dpi=800, bbox_inches='tight')
+        plt.savefig('results/figures/fig6A_snapshot.png', dpi=800, bbox_inches='tight')
     return segmented_areas, ground_truths

@@ -11,7 +11,7 @@ from model2_retinotopic.network.network_hierarchical import HierarchicalNetwork
 from model2_retinotopic.network.training_configurations import pretrain_multimove
 from model2_retinotopic.network.network_paths import network_paths
 import matplotlib.pyplot as plt
-import pylustrator
+#import pylustrator
 import numpy as np
 import torch
 
@@ -70,11 +70,17 @@ def figs_multimove():
 
     # Plot optic flow
     fig, axs = plt.subplots(4, 3)
-    for col_it in range(3):
-        for i in range(2):
-            axs[0 + 2 * i, col_it].set_title(['ABC', 'DEF'][i][col_it], fontsize=16)
-            axs[0 + 2 * i, col_it].quiver((true_OF[col_it + i * 3, :, :, 0])[::4, ::4], (true_OF[col_it + i * 3, :, :, 1])[::4, ::4], scale=15)
-            axs[1 + 2 * i, col_it].quiver(predicted_OF[col_it + i * 3, :, :, 0][::4, ::4], predicted_OF[col_it + i * 3, :, :, 1][::4, ::4], scale=15)
+    
+    for row_it in range(2):
+        for col_it in range(3):
+            axs[0 + 2 * row_it, col_it].set_title(['ABC', 'DEF'][row_it][col_it], fontsize=16)
+            d = 6
+            scale = 10
+            if col_it == 0 and row_it == 1:
+                scale = 7 # Draw larger arrows here for visibility
+            axs[0 + 2 * row_it, col_it].quiver((true_OF[col_it + row_it * 3, :, :, 0])[::d, ::d], (true_OF[col_it + row_it * 3, :, :, 1])[::d, ::d], scale=scale, width=0.01)
+            axs[1 + 2 * row_it, col_it].quiver(predicted_OF[col_it + row_it * 3, :, :, 0][::d, ::d], predicted_OF[col_it + row_it * 3, :, :, 1][::d, ::d], scale=scale, width=0.01)
+
     plt.subplots_adjust(hspace=.7)
 
     for ax in axs.flat:
@@ -96,7 +102,7 @@ def figs_multimove():
     plt.figure(1).texts[3].set(position=(0.1198, 0.0395))
     #% end: automatic generated code from pylustrator
 
-    plt.savefig('results/figures/figS2_multimove.png')
+    plt.savefig('results/figures/figS2_multimove.png', dpi=600, bbox_inches='tight')
 
 if __name__ == '__main__':
     figs_multimove()

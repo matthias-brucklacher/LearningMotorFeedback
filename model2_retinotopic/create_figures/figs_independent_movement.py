@@ -17,7 +17,6 @@ def figs_independent_movement(n_runs=1):
             'n_epochs_train': 4,
         }
 
-        #path_trained = 'results/intermediate/trained_net_animals_independently_moving'
         path_trained = network_paths['trained_animals_independently_moving']
 
         pretrain_animals(n_runs=args['n_runs'])
@@ -51,16 +50,15 @@ def figs_independent_movement(n_runs=1):
         baseline = [0.74, 0.68, 0.64, 0.58]
 
     fig, ax = plt.subplots()
-    #ax.errorbar(speed, IoU_mean, IoU_std, label='Sensorimotor PC')
     plot_errorband(ax, speed, IoU_mean, IoU_std, label='Sensorimotor PC')
     ax.plot(speed, baseline, c='purple', label='Best instantaneous')
     ax.set_xticks(speed)
     ax.set_ylim(bottom=0.4, top=0.8)
     ax.set_xlabel('Relative speed \nobject vs. observer')
-    ax.set_ylabel('Segmentation\noverlap(IoU)')
+    ax.set_ylabel('Segmentation\noverlap (IoU)')
     plt.legend()
     plt.tight_layout()
-    plt.savefig('results/figures/figS3_independent_movement')
+    plt.savefig('results/figures/fig6D_independent_movement')
 
 if __name__ == '__main__':
     figs_independent_movement()

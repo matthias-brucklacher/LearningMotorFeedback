@@ -175,8 +175,8 @@ def fig_retinotopic_recording(n_runs=1, condition='onset'):
         ax.set_ylim(bottom=-0.1)
         if condition == 'removal':
             # Manually indicate area of object removal by shading
-            ax.axvspan(5 * i_steps * isteps_to_ms, 6 * i_steps * isteps_to_ms, alpha=0.2, color='lightgrey')
-            ax.axvspan(4 * i_steps * isteps_to_ms, 5 * i_steps * isteps_to_ms, alpha=0.2, color='darkgrey')
+            ax.axvspan(5 * i_steps * isteps_to_ms, 6 * i_steps * isteps_to_ms, alpha=0.2, color='darkgray')
+            ax.axvspan(4 * i_steps * isteps_to_ms, 5 * i_steps * isteps_to_ms, alpha=0.2, color='gray')
     plt.tight_layout()
     plt.savefig(f'results/figures/fig_recording_{condition}.png', dpi=400)
 
@@ -201,6 +201,6 @@ def fig_retinotopic_recording(n_runs=1, condition='onset'):
     plt.savefig(f'results/figures/fig_recording_window.png', dpi=400)
 
 if __name__ == '__main__':
-    fig_retinotopic_recording(condition='onset', n_runs=2)
-    fig_retinotopic_recording(condition='removal', n_runs=2)    
+    fig_retinotopic_recording(condition='onset', n_runs=4)
+    fig_retinotopic_recording(condition='removal', n_runs=4)    
     plt.show()
