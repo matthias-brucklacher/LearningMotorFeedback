@@ -33,7 +33,7 @@ def fig_learning_curves(n_runs=1):
     plot_errorband(ax, range(1, args['n_epochs_pretrain'] + 1), noncoupled_error[1:, 0], noncoupled_error[1:, 1], color='r', label='NT')
 
     ax.vlines(x=args['n_epochs_pretrain'], ymin=0.1, ymax=ax.get_ylim()[1], colors='purple')
-    ax.annotate(' Activation of\n visual stream',
+    ax.annotate(' Activation of\n mHVA-V1 stream',
             xy=(10, 1),  
             xytext=(14, 1),  
             arrowprops=dict(facecolor='black', shrink=0.01),

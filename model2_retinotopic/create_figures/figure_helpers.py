@@ -68,9 +68,9 @@ def snapshot(load_path_pretrained, load_path_trained, dataset, eval_frame, show_
     axs[0, 0].set_ylabel(f'Sample {show_idcs[0]}/10')
     axs[1, 0].set_ylabel(f'Sample {show_idcs[1]}/10')
     axs[0, 0].set_xlabel('Retina\nVisual input')
-    axs[0, 1].set_xlabel('V1-nPE\n(MT inactive)')
-    axs[0, 2].set_xlabel('V1-nPE\n(MT active)')
-    axs[0, 3].set_xlabel('Segmentation\n(MT active)')
+    axs[0, 1].set_xlabel('V1-nPE\n(mHVA off)')
+    axs[0, 2].set_xlabel('V1-nPE\n(mHVA on)')
+    axs[0, 3].set_xlabel('Segmentation\n(mHVA on)')
 
     for ax in [axs[0, 0], axs[0, 1], axs[0, 2], axs[0, 3]]:
         ax.xaxis.set_label_position('top')

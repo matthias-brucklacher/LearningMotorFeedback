@@ -159,11 +159,11 @@ def fig_retinotopic_recording(n_runs=1, condition='onset'):
     axs[2, 1].sharey(axs[2, 0])
 
     plot_errorband(axs[3, 0], rec_timesteps, rec_mean_std['mt_in'][:, 0], rec_mean_std['mt_in'][:, 1])
-    axs[3, 0].set_ylabel('MT-RN\n(on cat)')
+    axs[3, 0].set_ylabel('mHVA-RN\n(on cat)')
     axs[3, 0].set_xlabel('Time [ms]')
 
     plot_errorband(axs[3, 1], rec_timesteps, rec_mean_std['mt_out'][:, 0], rec_mean_std['mt_out'][:, 1])
-    axs[3, 1].set_ylabel('MT-RN\n(background)')
+    axs[3, 1].set_ylabel('mHVA-RN\n(background)')
     axs[3, 1].sharey(axs[3, 0])
     axs[3, 1].set_xlabel('Time [ms]')
 

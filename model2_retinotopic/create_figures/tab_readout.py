@@ -214,7 +214,7 @@ def tab_readout(n_runs=2):
     headers = ['Area', 'Acc. train', 'Acc. test']
     for row_it in iter(acc_train_mean_std):
         table.append([row_it, to_table_cell(acc_train_mean_std[row_it]), to_table_cell(acc_test_mean_std[row_it]) ])
-    table.append(['Chance', '10.00', '10.00'])
+    table.append(['Chance', '10.0', '10.0'])
     table_latex = tabulate(table, headers=headers, tablefmt="latex_raw", floatfmt=".2f")
     table_readable = tabulate(table, headers=headers, floatfmt=".2f")
 
