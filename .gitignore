@@ -1,2 +1,3 @@
 data/original/FashionMNIST
 tests
+**/__pycache__
