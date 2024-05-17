@@ -1,3 +1,4 @@
 data/original/FashionMNIST
 tests
 **/__pycache__
+.vscode
