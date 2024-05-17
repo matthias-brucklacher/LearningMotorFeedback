@@ -2,16 +2,17 @@ import matplotlib.pyplot as plt
 from model2_retinotopic.network.network_hierarchical import HierarchicalNetwork
 from model2_retinotopic.during_run_analysis.analysis_functions import Recording
 from model2_retinotopic.during_run_analysis.segmentation import segmentation_performance
+from torch.utils.data import DataLoader
+from model2_retinotopic.during_run_analysis.eval_reconstruction_errors_multimove import eval_multimove
 import numpy as np
 import torch
-from torch.utils.data import DataLoader
 import torch.optim as optim
 import torchvision.transforms as T
 
 def train(n_runs, train_dataset, n_epochs, learning_rate, test_dataset=None, train_simultaneously=False, run_id='', load_path=None, save_path=None, eval_frame=9):
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     recording = Recording('timestamp', 'error', 'IoU')
-
+    
     # Multiple runs for statistical analysis
     for run_it in range(n_runs):
         torch.manual_seed(run_it)

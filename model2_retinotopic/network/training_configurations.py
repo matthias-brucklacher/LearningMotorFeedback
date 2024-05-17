@@ -182,13 +182,17 @@ def train_animals_separately(n_runs=1):
         recording_training = np.load(rec_paths['training'], allow_pickle=True).item()
     return recording_pretrain, recording_training
 
-def pretrain_multimove(n_runs=1):
+def pretrain_multimove(n_runs=4):
     net_path = network_paths['pretrained_multimove']
     retrain = retraining_condition(net_path, n_runs)
     if retrain:
-        train(n_runs=n_runs,
-            n_epochs=params_separate_training['epochs_pretrain'],
-            learning_rate=params_separate_training['lr_pretrain'],
-            save_path=net_path,
-            train_dataset=empty_multimove(),
-            )
+        recording = train(n_runs=n_runs,
+                        n_epochs=params_separate_training['epochs_pretrain'],
+                        learning_rate=params_separate_training['lr_pretrain'],
+                        save_path=net_path,
+                        train_dataset=empty_multimove(),
+                        )
+        return recording
+    else:
+        print('At the moment, the pretraining recording is not saved. Please retrain the network to get the recording.')
+        return None

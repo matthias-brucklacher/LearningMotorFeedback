@@ -4,12 +4,20 @@
     The optic flow is predicted by summing the motor predictions for each movement dimension.
     The predicted optic flow is compared to the true optic flow.
 
+    Before running, (1) redefine the recording in train.py as
+        recording = Recording('timestamp', 'error', 'IoU', 'linear', 'forward + turn', 'expanding/contracting')
+
+    and (2) replace the recording update in train.py with these lines:
+        multimove_errors = eval_multimove(net, device)
+        recording.update(error=running_loss, timestamp=epoch_it + 1, IoU=IoU, **multimove_errors)
+
 """
 
 from model2_retinotopic.data_handling.multimove_dataset import empty_multimove
 from model2_retinotopic.network.network_hierarchical import HierarchicalNetwork
 from model2_retinotopic.network.training_configurations import pretrain_multimove
 from model2_retinotopic.network.network_paths import network_paths
+from model2_retinotopic.create_figures.figure_helpers import plot_errorband
 import matplotlib.pyplot as plt
 #import pylustrator
 import numpy as np
@@ -40,8 +48,20 @@ def figs_multimove():
     #pylustrator.start()
 
     # Pretrain network (we only need the motor predictions here)
-    pretrain_multimove()
+    recording = pretrain_multimove()
     
+    # Plot learning curve
+    with plt.style.context('model2_retinotopic.create_figures.plotting_style'):
+        fig1, ax1 = plt.subplots()
+        epochs = recording['timestamp'][1:, 0]
+        plot_errorband(ax1, epochs, recording['expanding/contracting'][:, 0], recording['expanding/contracting'][:, 1], label='expanding/contracting')
+        plot_errorband(ax1, epochs, recording['forward + turn'][:, 0], recording['forward + turn'][:, 1], label='forward + turn')
+        plot_errorband(ax1, epochs, recording['linear'][:, 0], recording['linear'][:, 1], label='linear')
+        plt.xlabel('Epochs')
+        plt.xlim(0.5, 10.5)
+        plt.ylabel('Prediction error (MSE)')
+        plt.legend()
+        plt.savefig('results/figures/figS_learning_curve_multimove.png', dpi=600, bbox_inches='tight')
 
     # Create dataset for evaluation
     dataset = empty_multimove()
@@ -90,16 +110,16 @@ def figs_multimove():
     plt.tight_layout()
 
     #% start: automatic generated code from pylustrator
-    plt.figure(1).text(0.1201, 0.7769, 'Original', transform=plt.figure(1).transFigure, fontsize=12., rotation=90.)  # id=plt.figure(1).texts[0].new
-    plt.figure(1).text(0.1201, 0.5556, 'Predicted', transform=plt.figure(1).transFigure, fontsize=12., rotation=90.)  # id=plt.figure(1).texts[2].new
-    plt.figure(1).text(0.1201, 0.2911, 'Original', transform=plt.figure(1).transFigure, fontsize=12., rotation=90.)  # id=plt.figure(1).texts[3].new
-    plt.figure(1).text(0.1201, 0.0675, 'Predicted', transform=plt.figure(1).transFigure, fontsize=12., rotation=90.)  # id=plt.figure(1).texts[4].new
-    plt.figure(1).ax_dict = {ax.get_label(): ax for ax in plt.figure(1).axes}
-    getattr(plt.figure(1), '_pylustrator_init', lambda: ...)()
-    plt.figure(1).texts[0].set(position=(0.1198, 0.7789))
-    plt.figure(1).texts[1].set(position=(0.1198, 0.5285))
-    plt.figure(1).texts[2].set(position=(0.1198, 0.2987))
-    plt.figure(1).texts[3].set(position=(0.1198, 0.0395))
+    plt.figure(2).text(0.1201, 0.7769, 'Original', transform=plt.figure(2).transFigure, fontsize=12., rotation=90.)  # id=plt.figure(2).texts[0].new
+    plt.figure(2).text(0.1201, 0.5556, 'Predicted', transform=plt.figure(2).transFigure, fontsize=12., rotation=90.)  # id=plt.figure(2).texts[2].new
+    plt.figure(2).text(0.1201, 0.2911, 'Original', transform=plt.figure(2).transFigure, fontsize=12., rotation=90.)  # id=plt.figure(2).texts[3].new
+    plt.figure(2).text(0.1201, 0.0675, 'Predicted', transform=plt.figure(2).transFigure, fontsize=12., rotation=90.)  # id=plt.figure(2).texts[4].new
+    plt.figure(2).ax_dict = {ax.get_label(): ax for ax in plt.figure(2).axes}
+    getattr(plt.figure(2), '_pylustrator_init', lambda: ...)()
+    plt.figure(2).texts[0].set(position=(0.1198, 0.7789))
+    plt.figure(2).texts[1].set(position=(0.1198, 0.5285))
+    plt.figure(2).texts[2].set(position=(0.1198, 0.2987))
+    plt.figure(2).texts[3].set(position=(0.1198, 0.0395))
     #% end: automatic generated code from pylustrator
 
     plt.savefig('results/figures/figS2_multimove.png', dpi=600, bbox_inches='tight')
