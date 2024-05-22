@@ -154,6 +154,7 @@ def create_animals_sequence(removal_paradigm=False, empty=False, coupled=True, r
     if coupled:
         movement_for_vr = movement_alternating() 
     else:
+        np.random.seed(0)
         movement_for_vr = np.random.binomial(1, 0.5, size=(sequence_length, 1))
 
     background = create_moving_background(img_width, sequence_length, movement_for_vr)
