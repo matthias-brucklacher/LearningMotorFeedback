@@ -8,11 +8,11 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 
-def plot_errorband(ax, x, y, yerr, color=None, label=None, alpha=0.2):
+def plot_errorband(ax, x, y, yerr, color=None, alpha=0.2, **kwargs):
     x = np.array(x)
     y = np.array(y)
     yerr = np.array(yerr)
-    ax.plot(x, y, color=color, label=label)
+    ax.plot(x, y, color=color, **kwargs)
     ax.fill_between(x, y - yerr, y + yerr, color=color, alpha=alpha)
 
 def snapshot(load_path_pretrained, load_path_trained, dataset, eval_frame, show_idcs=[2, 4], mode=None):

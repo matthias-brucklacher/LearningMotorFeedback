@@ -4,7 +4,7 @@ from torch.utils.data import Subset
 from model2_retinotopic.network.train import train
 from model2_retinotopic.data_handling.fashionmnist_datasets import empty_like_fashionmnist_train, fashionmnist_train
 from model2_retinotopic.data_handling.multimove_dataset import empty_multimove
-from model2_retinotopic.data_handling.animals_datasets import animals_interleaved_with_empty, empty_like_animals_coupled, animals_training_coupled, animals_training_noncoupled
+from model2_retinotopic.data_handling.animals_datasets import animals_interleaved_with_empty, empty_like_animals_coupled, animals_training_coupled, animals_training_noncoupled, empty_like_animals_noncoupled
 from model2_retinotopic.network.network_paths import network_paths
 import numpy as np
 
@@ -25,6 +25,7 @@ params_separate_training = {
 
 # Wrapper functions for training and pretraining
 def retraining_condition(network_path, n_runs=1, rec_path=None):
+    return True
 
     SKIP_RETRAINING_QUERY = False  # Should be set to False unless you want to skip all optional retraining. This will easily lead to wrong results as 
     # even though retraining may be desired (due to change in initialization), but is automatically skipped with  enabled.
@@ -100,10 +101,11 @@ def pretrain_animals_noncoupled(n_runs=1):
     net_path = network_paths['pretrained_animals_noncoupled']
     rec_path = 'results/intermediate/rec_animals_pretrained_noncoupled.npy'
     retrain = retraining_condition(net_path, n_runs, rec_path)
+    print("ABC")
     if retrain:
         recording = train(n_runs=n_runs, 
                         n_epochs=params_learning_curve['epochs_pretrain'], 
-                        train_dataset=animals_training_noncoupled(), 
+                        train_dataset=empty_like_animals_noncoupled(), 
                         learning_rate=params_learning_curve['lr_pretrain'],
                         save_path=net_path)
         np.save(rec_path, recording)
@@ -111,7 +113,8 @@ def pretrain_animals_noncoupled(n_runs=1):
         recording = np.load(rec_path, allow_pickle=True).item()
     return recording
 
-def train_animals_nonempty(n_runs=1):
+def train_animals_nonempty(n_runs=1, single_stream=False):
+    # First, the motor-to-visual pathway is pretrained on sequences WITH animals
     path_pretrained = network_paths['pretrained_animals_nonempty']
     rec_path_pretrained = 'results/intermediate/rec_animals_pretrained_nonempty.npy'
     redo_pretraining = retraining_condition(path_pretrained, n_runs, rec_path_pretrained)
@@ -128,7 +131,9 @@ def train_animals_nonempty(n_runs=1):
     path_trained = network_paths['trained_animals_after_nonempty_pretraining']
     rec_path_trained = 'results/intermediate/rec_animals_trained_after_nonempty_pretraining.npy'
     redo_training = retraining_condition(path_trained, n_runs, rec_path_trained)
-    if redo_training:
+    if single_stream:
+        return recording_pretrain, None
+    elif redo_training:
         recording_train = train(n_runs=n_runs, 
                                 n_epochs=params_learning_curve['epochs_train'], 
                                 train_dataset=animals_training_coupled(), 
@@ -141,14 +146,19 @@ def train_animals_nonempty(n_runs=1):
     return recording_pretrain, recording_train
 
 
-def pretrain_animals(n_runs=1):
+def pretrain_animals(n_runs=1, test_with_animals=False):
     net_path = network_paths['pretrained_animals']
     rec_path = 'results/intermediate/rec_animals_pretrained.npy'
     retrain = retraining_condition(net_path, n_runs, rec_path)
+    if test_with_animals:
+        test_dataset = animals_training_coupled()
+    else:
+        test_dataset = None
     if retrain:
         recording = train(n_runs=n_runs, 
                         n_epochs=params_separate_training['epochs_pretrain'], 
                         train_dataset=empty_like_animals_coupled(), 
+                        test_dataset=test_dataset,
                         learning_rate=params_separate_training['lr_pretrain'],
                         save_path=net_path)
         np.save(rec_path, recording)

@@ -66,6 +66,24 @@ def train(n_runs, train_dataset, n_epochs, learning_rate, test_dataset=None, tra
     recording_mean_std = recording.compute_mean_std()
     return recording_mean_std
 
+def get_test_error(net, test_dataset, device):
+    """Evaluate the network's prediction error on the test dataset.
+    
+    """
+    test_loader = DataLoader(dataset=test_dataset, batch_size=128, shuffle=True)
+    running_loss = 0    
+    with torch.no_grad():
+        
+        for i, data in enumerate(test_loader, 0):
+            data = data[0] # Remove labels
+            net.reset_activity(batch_size = len(data[0]))
+            optic_flow, motor_state = data[0].to(device), data[1].to(device)
+            sequence_length = optic_flow.shape[1]
+            for frame_it in range(sequence_length):
+                _, _, _, monitoring_loss = net(optic_flow[:, frame_it], motor_state[:, frame_it])
+                running_loss += monitoring_loss.item()
+    return running_loss
+
 def training_loop(n_epochs, train_loader, test_dataset, recording, train_simultaneously, net, optimizer, device, run_id='', eval_frame=9):
 
     optimizer_stream_1 = optim.SGD([net.mtr_to_pPE0.weight, net.mtr_to_nPE0.weight], lr=4000) # Separate optimizer for motor-to-visual pathway in joint training
@@ -88,6 +106,8 @@ def training_loop(n_epochs, train_loader, test_dataset, recording, train_simulta
                 if train_simultaneously: 
                     optimizer_stream_1.step()
                 running_loss += monitoring_loss.item()
+        if test_dataset is not None:
+            running_loss = get_test_error(net, test_dataset, device)
         if net.inference_mode != 'stream_1': # Stream 2 needs to be active for segmentation 
             IoU = segmentation_performance(net, test_dataset, eval_frame=eval_frame, run_id=run_id)
             #print(f'Epoch {epoch_it} IoU {IoU:.2f}')
